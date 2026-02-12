@@ -36,7 +36,7 @@ A modern, lightweight desktop application for tracking Community Center bundles 
 
 ### From Release (Recommended)
 
-1. Download the latest release from [Releases](https://github.com/p-v-dev/bundle-valley/releases)
+1. Download the latest release from [Releases]([https://github.com/p-v-dev/bundle-valley/releases](https://github.com/p-v-dev/BundleValleyCo/releases/tag/v1))
 2. Run the `.msi` installer (Windows) or `.dmg` (macOS)
 3. Launch Bundle Valley Co from your applications menu
 
@@ -155,11 +155,11 @@ This is a fan-made tool and is not affiliated with or endorsed by ConcernedApe o
 
 Pedro Vítor - [@p-v-dev](https://github.com/p-v-dev)
 
-Project Link: [https://github.com/p-v-dev/bundle-valley](https://github.com/p-v-dev/bundle-valley)
+Project Link: [https://github.com/p-v-dev/bundle-valley](https://github.com/p-v-dev/BundleValleyCo)
 
 ---
 
 ⭐ Star this repo if you find it useful!
 ```
 
----
+
