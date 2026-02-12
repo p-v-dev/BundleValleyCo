@@ -1,3 +1,417 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+/* ===================================
+   Tema Stardew Valley
+   =================================== */
+
+:root {
+    --brown-900: #3e2723;
+    --brown-800: #4e342e;
+    --brown-700: #5d4037;
+    --brown-600: #6d4c41;
+    --cream: #fef9e7;
+    --cream-dark: #f5e6c8;
+    --green-farm: #6b8e23;
+    --green-dark: #556b2f;
+    --shadow: rgba(62, 39, 35, 0.3);
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.pixel-font {
+    font-family: "Press Start 2P", cursive;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+
+/* Background temático */
+.stardew-bg {
+    background: linear-gradient(135deg, #87ceeb 0%, #98d8e8 50%, #bae8e8 100%);
+    background-attachment: fixed;
+    position: relative;
+}
+
+.stardew-bg::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stardew-bg > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Borda pixelada */
+.pixel-border {
+    border: 4px solid var(--brown-800);
+    border-radius: 12px;
+    position: relative;
+}
+
+.pixel-border::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--brown-600);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+/* Sombra temática */
+.shadow-pixel {
+    box-shadow:
+        0 4px 0 rgba(62, 39, 35, 0.3),
+        0 8px 12px rgba(62, 39, 35, 0.2);
+}
+
+/* Background creme */
+.bg-cream {
+    background: linear-gradient(
+        135deg,
+        var(--cream) 0%,
+        var(--cream-dark) 100%
+    );
+}
+
+/* Cores de texto */
+.text-brown-800 {
+    color: var(--brown-800);
+}
+
+.text-brown-700 {
+    color: var(--brown-700);
+}
+
+.text-brown-600 {
+    color: var(--brown-600);
+}
+
+/* Barra de progresso temática */
+.stardew-progress-bar {
+    height: 32px;
+    background: linear-gradient(
+        to bottom,
+        #d4a574 0%,
+        #c49060 50%,
+        #b47d4d 100%
+    );
+    border: 3px solid var(--brown-800);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stardew-progress-fill {
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        #7cb342 0%,
+        #689f38 50%,
+        #558b2f 100%
+    );
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.stardew-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+}
+
+.stardew-progress-fill-white {
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #f0f0f0 50%,
+        #e0e0e0 100%
+    );
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Stat boxes */
+.stat-box {
+    background: linear-gradient(
+        135deg,
+        var(--cream) 0%,
+        var(--cream-dark) 100%
+    );
+    border: 3px solid var(--brown-800);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 3px 0 rgba(62, 39, 35, 0.3);
+    transition: transform 0.2s;
+}
+
+.stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(62, 39, 35, 0.3);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--brown-800);
+    font-family: "Press Start 2P", cursive;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--brown-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-box.delivered .stat-value {
+    color: #2e7d32;
+}
+.stat-box.collected .stat-value {
+    color: #1565c0;
+}
+.stat-box.bundles .stat-value {
+    color: #6a1b9a;
+}
+.stat-box.total .stat-value {
+    color: #d84315;
+}
+
+/* Room buttons */
+.room-button {
+    background: linear-gradient(
+        135deg,
+        var(--cream) 0%,
+        var(--cream-dark) 100%
+    );
+    border: 3px solid var(--brown-800);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--brown-800);
+    transition: all 0.2s;
+    box-shadow: 0 3px 0 rgba(62, 39, 35, 0.3);
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.room-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(62, 39, 35, 0.3);
+    background: linear-gradient(135deg, #fff 0%, var(--cream) 100%);
+}
+
+.room-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 0 rgba(62, 39, 35, 0.3);
+}
+
+.room-button.active {
+    background: linear-gradient(
+        135deg,
+        var(--green-farm) 0%,
+        var(--green-dark) 100%
+    );
+    color: white;
+    box-shadow:
+        0 3px 0 rgba(62, 39, 35, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Bundle complete animation */
+.complete-bundle {
+    animation: completeGlow 2s ease-in-out infinite;
+}
+
+@keyframes completeGlow {
+    0%,
+    100% {
+        box-shadow:
+            0 4px 0 rgba(62, 39, 35, 0.3),
+            0 8px 12px rgba(62, 39, 35, 0.2),
+            0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 4px 0 rgba(62, 39, 35, 0.3),
+            0 8px 12px rgba(62, 39, 35, 0.2),
+            0 0 30px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Item rows */
+.item-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: linear-gradient(
+        135deg,
+        var(--cream) 0%,
+        var(--cream-dark) 100%
+    );
+    border: 2px solid var(--brown-800);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.item-row:hover {
+    transform: translateX(4px);
+    box-shadow: -3px 3px 0 rgba(62, 39, 35, 0.2);
+}
+
+.item-row.status-missing {
+    border-left: 6px solid #c62828;
+}
+
+.item-row.status-collected {
+    border-left: 6px solid #1565c0;
+}
+
+.item-row.status-delivered {
+    border-left: 6px solid #2e7d32;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
+/* Select temático */
+.stardew-select {
+    background: linear-gradient(
+        135deg,
+        var(--cream) 0%,
+        var(--cream-dark) 100%
+    );
+    border: 3px solid var(--brown-800);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--brown-800);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 0 rgba(62, 39, 35, 0.3);
+    font-size: 0.9rem;
+}
+
+.stardew-select:hover {
+    background: linear-gradient(135deg, #fff 0%, var(--cream) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 rgba(62, 39, 35, 0.3);
+}
+
+.stardew-select:focus {
+    outline: none;
+    box-shadow:
+        0 2px 0 rgba(62, 39, 35, 0.3),
+        0 0 0 3px rgba(107, 142, 35, 0.3);
+}
+
+.stardew-select:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 rgba(62, 39, 35, 0.3);
+}
+
+/* Scrollbar temático */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream-dark);
+    border: 2px solid var(--brown-800);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        to bottom,
+        var(--green-farm) 0%,
+        var(--green-dark) 100%
+    );
+    border: 2px solid var(--brown-800);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #7cb342 0%, #558b2f 100%);
+}
+
+/* Adicionar no final do App.css */
+
+/* Animação quando muda status */
+.item-row {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes statusChange {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.item-row:focus-within {
+    animation: statusChange 0.3s ease-out;
+}
+
+/* Brilho quando item é entregue */
+@keyframes deliveredGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 10px rgba(46, 125, 50, 0);
+    }
+}
+
+.item-row.status-delivered {
+    animation: deliveredGlow 0.6s ease-out;
+}
