@@ -1,7 +1,5 @@
 # Bundle Valley Co 
 
-A modern, lightweight desktop application for tracking Community Center bundles in Stardew Valley. Built with Tauri, React, and Rust for optimal performance and a native feel.
-
 ## Features
 
 - **Complete Bundle Tracking** - Track all 30 Community Center bundles across 6 rooms
@@ -36,8 +34,8 @@ A modern, lightweight desktop application for tracking Community Center bundles 
 
 ### From Release (Recommended)
 
-1. Download the latest release from [Releases]([https://github.com/p-v-dev/bundle-valley/releases](https://github.com/p-v-dev/BundleValleyCo/releases/tag/v1))
-2. Run the `.msi` installer (Windows) or `.dmg` (macOS)
+1. Download the latest release from [Releases](https://github.com/p-v-dev/BundleValleyCo/releases/tag/v1)
+2. Run the `.msi` installer (Windows) 
 3. Launch Bundle Valley Co from your applications menu
 
 ### From Source
@@ -66,14 +64,14 @@ bun tauri dev
 bun tauri build
 ```
 
-## 🎮 Usage
+## Usage
 
 1. **Track Items**: Mark items as "Missing", "Collected", or "Delivered"
 2. **Filter by Room**: Click room buttons to filter bundles
 3. **Monitor Progress**: Watch your overall completion percentage increase
 4. **Complete Bundles**: Deliver all required items to complete bundles
 
-## 🏗️ Project Structure
+## Project Structure
 ```
 bundle-valley/
 ├── src/                    # React frontend
@@ -92,7 +90,7 @@ bundle-valley/
 └── README.md
 ```
 
-## 🔧 Development
+## Development
 
 ### Key Design Decisions
 
