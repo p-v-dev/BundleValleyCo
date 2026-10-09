@@ -1,163 +1,148 @@
-# Bundle Valley Co 
+# Bundle Valley Co
+
+Bundle Valley Co is a desktop companion for tracking progress toward completing the Community Center in Stardew Valley. It keeps bundle requirements and item status in one local application, so you can see what is missing, what has been collected, and what has already been delivered without keeping a separate checklist.
+
+This is a fan-made, unofficial application. It is not affiliated with or endorsed by ConcernedApe or the official Stardew Valley game.
 
 ## Features
 
-- **Complete Bundle Tracking** - Track all 30 Community Center bundles across 6 rooms
-- **Real-time Progress** - Visual progress bars and statistics for overall completion
-- **Instant Updates** - Smooth UI updates without page reloads
-- **Room Filtering** - Filter bundles by room for easier organization
-- **Persistent Storage** - Local SQLite database for reliable data persistence
-- **Stardew Valley Theme** - Custom pixel-art inspired UI matching the game's aesthetic
-- **Lightweight** - Only ~10-15 MB installed size thanks to Tauri
+- Track the Community Center's 30 bundles across six rooms.
+- Record each item's status as missing, collected, or delivered.
+- Filter the bundle list by room.
+- View overall item and bundle completion statistics.
+- See progress bars for overall completion and individual bundles.
+- Persist progress locally in an SQLite database.
+- Use a Stardew Valley-inspired desktop interface.
 
-## Tech Stack
+## Technology
 
-### Frontend
-- **React 18** - Modern UI framework
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling with custom Stardew Valley theme
-- **Vite** - Fast build tool and dev server
+- React 19 and TypeScript for the user interface.
+- Vite for frontend development and production builds.
+- Tailwind CSS for styling.
+- Tauri 2 for the desktop shell and frontend/backend integration.
+- Rust for application commands and data access.
+- `rusqlite` with bundled SQLite for local persistence.
+- `serde` and Tauri commands for serializing data across the frontend/backend boundary.
 
-### Backend
-- **Rust** - High-performance system programming
-- **Tauri 2.0** - Modern desktop app framework (lighter than Electron)
-- **rusqlite** - Embedded SQLite database
-- **serde** - Efficient serialization/deserialization
+## Architecture
 
-### Architecture
-- **Model-View-Controller (MVC)** pattern
-- **Repository Pattern** for database abstraction
-- **Optimistic UI updates** for instant feedback
-- **Type-safe IPC** between frontend and backend
+The React and TypeScript frontend loads bundles and progress statistics through Tauri commands. When an item status changes, it updates the interface immediately and sends the new status to the Rust backend. Rust owns the SQLite connection, validates status values, and exposes the data operations used by the frontend.
+
+```mermaid
+flowchart LR
+    UI[React + TypeScript UI]
+    IPC[Tauri 2 commands]
+    Backend[Rust application layer]
+    DB[(SQLite database)]
+
+    UI <--> IPC
+    IPC <--> Backend
+    Backend <--> DB
+```
+
+The database is created under Tauri's application data directory as `bundle-valley.db`. On first startup, the application creates the `bundles` and `items` tables and seeds the Community Center data.
+
+## Project Structure
+
+```text
+BundleValleyCo/
+├── src/                         # React and TypeScript frontend
+│   ├── App.tsx                  # Main UI and user interactions
+│   ├── App.css                  # Application styling
+│   └── main.tsx                 # Frontend entry point
+├── src-tauri/                   # Rust and Tauri application layer
+│   ├── src/
+│   │   ├── main.rs              # Tauri setup and application state
+│   │   ├── commands.rs          # Frontend-facing Tauri commands
+│   │   ├── database.rs          # SQLite schema and queries
+│   │   ├── models.rs            # Serialized data models
+│   │   └── seed_data.rs         # Initial bundle and item data
+│   ├── Cargo.toml               # Rust package and dependencies
+│   └── tauri.conf.json          # Tauri build and window configuration
+├── package.json                 # Frontend scripts and dependencies
+└── bun.lock                     # Locked JavaScript dependencies
+```
 
 ## Installation
 
-### From Release (Recommended)
+### Windows prerequisites
 
-1. Download the latest release from [Releases](https://github.com/p-v-dev/BundleValleyCo/releases/tag/v1)
-2. Run the `.msi` installer (Windows) 
-3. Launch Bundle Valley Co from your applications menu
+To run or build the application from source on Windows, install:
 
-### From Source
+- [Bun](https://bun.sh/) for JavaScript dependencies and project scripts.
+- [Rust](https://rustup.rs/) with the stable MSVC toolchain.
+- [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) with the Desktop development with C++ workload.
+- [Microsoft Edge WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) Runtime.
 
-**Prerequisites:**
-- [Node.js](https://nodejs.org/) 18+
-- [Rust](https://rustup.rs/) 1.70+
-- [Bun](https://bun.sh/) (or npm/yarn)
-```bash
-# Clone the repository
-git clone https://github.com/p-v-dev/bundle-valley.git
-cd bundle-valley
+The published installer includes the application bundle and does not require the source-build toolchain.
 
-# Install dependencies
+### Install the published application
+
+The latest published release currently provides a Windows x64 MSI installer:
+
+1. Open the [v1 release](https://github.com/p-v-dev/BundleValleyCo/releases/tag/v1).
+2. Download `Bundle.Valley.Co_0.1.0_x64_en-US.msi`.
+3. Run the installer and launch **Bundle Valley Co**.
+
+### Run from source
+
+From a clone of the repository:
+
+```powershell
+git clone https://github.com/p-v-dev/BundleValleyCo.git
+cd BundleValleyCo
 bun install
-
-# Install Rust dependencies
-cd src-tauri
-cargo build
-cd ..
-
-# Run in development mode
-bun tauri dev
-
-# Build for production
-bun tauri build
+bun run tauri dev
 ```
+
+The `tauri dev` command starts the Vite development server through the command configured in `src-tauri/tauri.conf.json`.
+
+### Build from source
+
+To create a production frontend build:
+
+```powershell
+bun run build
+```
+
+To build the desktop application and its installer artifacts:
+
+```powershell
+bun run tauri build
+```
+
+Tauri writes the generated application artifacts under `src-tauri/target/release/bundle/`.
 
 ## Usage
 
-1. **Track Items**: Mark items as "Missing", "Collected", or "Delivered"
-2. **Filter by Room**: Click room buttons to filter bundles
-3. **Monitor Progress**: Watch your overall completion percentage increase
-4. **Complete Bundles**: Deliver all required items to complete bundles
+1. Open a room or select **All Rooms**.
+2. Change an item's status to **Collected** or **Delivered** as your progress changes.
+3. Use the overall statistics and progress bars to review completion.
+4. Return to the application later; progress is loaded from the local SQLite database.
 
-## Project Structure
-```
-bundle-valley/
-├── src/                    # React frontend
-│   ├── App.tsx            # Main component with theme
-│   ├── App.css            # Stardew Valley themed styles
-│   └── main.tsx           # Entry point
-├── src-tauri/             # Rust backend
-│   ├── src/
-│   │   ├── main.rs        # Tauri app initialization
-│   │   ├── models.rs      # Data models
-│   │   ├── database.rs    # SQLite operations
-│   │   ├── commands.rs    # Tauri commands (API)
-│   │   └── seed_data.rs   # Initial data seeding
-│   ├── Cargo.toml         # Rust dependencies
-│   └── tauri.conf.json    # Tauri configuration
-└── README.md
+## Development Checks
+
+The repository does not currently define an automated test script or a test suite. The available frontend verification command is:
+
+```powershell
+bun run build
 ```
 
-## Development
+The source-build commands above are the supported development and packaging entry points. Performance, memory usage, installed size, and startup-time metrics are not specified here because this repository does not provide measured values for them.
 
-### Key Design Decisions
+## Contributing
 
-- **Tauri over Electron**: 90% smaller bundle size, better performance, native feel
-- **SQLite**: Embedded database for zero-config persistence
-- **Optimistic Updates**: UI updates instantly, backend syncs in background
-- **Type Safety**: TypeScript + Rust = compile-time guarantees across stack
+Contributions are welcome:
 
-### Database Schema
-```sql
-CREATE TABLE bundles (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    room TEXT NOT NULL,
-    required_items INTEGER NOT NULL
-);
+1. Fork the repository.
+2. Create a feature branch.
+3. Make and verify your changes.
+4. Open a pull request with a clear description.
 
-CREATE TABLE items (
-    id TEXT PRIMARY KEY,
-    bundle_id TEXT NOT NULL,
-    name TEXT NOT NULL,
-    status TEXT DEFAULT 'missing',
-    quality TEXT,
-    FOREIGN KEY (bundle_id) REFERENCES bundles(id)
-);
-```
+## Credits
 
-### Adding New Bundles
+- [Stardew Valley](https://www.stardewvalley.net/) by ConcernedApe.
+- [Stardew Valley Wiki](https://stardewvalleywiki.com/) for Community Center bundle information.
+- [Pedro Vítor](https://github.com/p-v-dev), project author.
 
-Edit `src-tauri/src/seed_data.rs` to add or modify bundle data.
-
-## Performance
-
-- **Bundle Size**: ~12 MB (vs ~150 MB for Electron equivalent)
-- **Memory Usage**: ~80 MB RAM (vs ~300 MB for Electron)
-- **Startup Time**: <1 second cold start
-- **Update Latency**: <50ms optimistic UI updates
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-## 🎮 Disclaimer
-
-This is a fan-made tool and is not affiliated with or endorsed by ConcernedApe or the official Stardew Valley game. All game content and trademarks are property of their respective owners.
-
-## 🙏 Acknowledgments
-
-- [Stardew Valley](https://www.stardewvalley.net/) by ConcernedApe for the amazing game
-- [Stardew Valley Wiki](https://stardewvalleywiki.com/) for bundle information
-
-## 📧 Contact
-
-Pedro Vítor - [@p-v-dev](https://github.com/p-v-dev)
-
-Project Link: [https://github.com/p-v-dev/bundle-valley](https://github.com/p-v-dev/BundleValleyCo)
-
----
-
-⭐ Star this repo if you find it useful!
-```
-
-
+Project repository: [github.com/p-v-dev/BundleValleyCo](https://github.com/p-v-dev/BundleValleyCo)
